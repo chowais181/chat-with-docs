@@ -180,10 +180,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     "fastq" "^1.6.0"
 
-"@pinecone-database/pinecone@*", "@pinecone-database/pinecone@0.0.12":
-  "integrity" "sha512-YI9IQ7/0k6jI+NUyTD+I2BvwUGhOMRgMpx/qx/v5t5Cm31vSdnXEgGfh9jILUpi/+j59vtK+O5rB+pV5v1L15w=="
-  "resolved" "https://registry.npmjs.org/@pinecone-database/pinecone/-/pinecone-0.0.12.tgz"
-  "version" "0.0.12"
+"@pinecone-database/pinecone@*", "@pinecone-database/pinecone@^0.1.5":
+  "integrity" "sha512-Amkc6JFjhRzKqf5GkdI2Pd4H7+EqUtNp7kaJdCSgDT2PG2cokx+bGyRBWzrkYD7Kwo5jtWaPNWcblysEUPWCVg=="
+  "resolved" "https://registry.npmjs.org/@pinecone-database/pinecone/-/pinecone-0.1.5.tgz"
+  "version" "0.1.5"
   dependencies:
     "cross-fetch" "^3.1.5"
 
@@ -407,6 +407,11 @@
   "integrity" "sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ=="
   "resolved" "https://registry.npmjs.org/@types/unist/-/unist-2.0.6.tgz"
   "version" "2.0.6"
+
+"@types/uuid@^9.0.1":
+  "integrity" "sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA=="
+  "resolved" "https://registry.npmjs.org/@types/uuid/-/uuid-9.0.1.tgz"
+  "version" "9.0.1"
 
 "@typescript-eslint/parser@^5.42.0", "@typescript-eslint/parser@^5.54.0":
   "integrity" "sha512-ixaM3gRtlfrKzP8N6lRhBbjTow1t6ztfBvQNGuRM8qH1bjFFXIJ35XY+FC0RRBKn3C6cT+7VW1y8tNm7DwPHDQ=="

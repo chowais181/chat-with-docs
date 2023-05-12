@@ -25,7 +25,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: 'Hi, what would you like to learn about this legal case?',
+        message: 'Hi, what would you like to know?',
         type: 'apiMessage',
       },
     ],
@@ -222,9 +222,7 @@ export default function Home() {
                     id="userInput"
                     name="userInput"
                     placeholder={
-                      loading
-                        ? 'Waiting for response...'
-                        : 'What is this legal case about?'
+                      loading ? 'Waiting for response...' : 'Send a message.'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}

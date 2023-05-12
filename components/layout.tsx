@@ -1,3 +1,4 @@
+import FileUpload from './FileUpload';
 interface LayoutProps {
   children?: React.ReactNode;
 }
@@ -11,6 +12,7 @@ export default function Layout({ children }: LayoutProps) {
             <a href="#" className="hover:text-slate-600 cursor-pointer">
               Home
             </a>
+            <FileUpload />
           </nav>
         </div>
       </header>

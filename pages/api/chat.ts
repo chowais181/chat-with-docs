@@ -11,8 +11,6 @@ export default async function handler(
 ) {
   const { question, history } = req.body;
 
-  console.log('question', question);
-
   //only accept post requests
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -34,6 +32,9 @@ export default async function handler(
       {
         pineconeIndex: index,
         textKey: 'text',
+        filter: {
+          userId: { $in: ['60677ed5-e3cc-43e0-ac3d-61b233d77c28'] },
+        },
         namespace: PINECONE_NAME_SPACE, //namespace comes from your config folder
       },
     );
