@@ -1,8 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
-import Layout from '@/components/layout';
+import Layout from '../components/layout';
 import styles from '@/styles/Home.module.css';
 import { Message } from '@/types/chat';
 import Image from 'next/image';
+import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import LoadingDots from '@/components/ui/LoadingDots';
 import { Document } from 'langchain/document';
@@ -122,7 +123,9 @@ export default function Home() {
 
   return (
     <>
-      <Layout>
+      <Layout pageTitle="Login">
+        <Link href="/">Home</Link>
+        <br />
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Chat With Your Docs
@@ -188,7 +191,11 @@ export default function Home() {
                               <div key={`messageSourceDocs-${index}`}>
                                 <AccordionItem value={`item-${index}`}>
                                   <AccordionTrigger>
-                                    <h3>Source {index + 1}</h3>
+                                    <h3>
+                                      <div className={styles.source}>
+                                        Source {index + 1}
+                                      </div>
+                                    </h3>
                                   </AccordionTrigger>
                                   <AccordionContent>
                                     <ReactMarkdown linkTarget="_blank">

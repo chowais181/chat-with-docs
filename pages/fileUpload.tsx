@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
-
+import Layout from '../components/layout';
+import Link from 'next/link';
 const FileUpload: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -12,11 +13,14 @@ const FileUpload: React.FC = () => {
   };
 
   return (
-    <div>
-      <input type="file" accept=".pdf" onChange={handleFileChange} />
-      {selectedFile && <p>Selected file: {selectedFile.name}</p>}
-    </div>
+    <Layout pageTitle="upload pdf">
+      <Link href="/">Home</Link>
+      <br />
+      <div>
+        <input type="file" accept=".pdf" onChange={handleFileChange} />
+        {selectedFile && <p>Selected file: {selectedFile.name}</p>}
+      </div>
+    </Layout>
   );
 };
-
 export default FileUpload;
