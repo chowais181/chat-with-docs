@@ -19,6 +19,7 @@ export const run = async () => {
     // const loader = new PDFLoader(filePath);
     const rawDocs = await directoryLoader.load();
 
+    console.log('raw docs', rawDocs);
     /* Split text into chunks */
     const textSplitter = new RecursiveCharacterTextSplitter({
       chunkSize: 1000,
@@ -47,11 +48,11 @@ export const run = async () => {
     console.log(docsWithMetadata);
 
     //embed the PDF documents
-    await PineconeStore.fromDocuments(docsWithMetadata, embeddings, {
-      pineconeIndex: index,
-      namespace: PINECONE_NAME_SPACE,
-      textKey: 'text',
-    });
+    // await PineconeStore.fromDocuments(docsWithMetadata, embeddings, {
+    //   pineconeIndex: index,
+    //   namespace: PINECONE_NAME_SPACE,
+    //   textKey: 'text',
+    // });
   } catch (error) {
     console.log('error', error);
     throw new Error('Failed to ingest your data');
