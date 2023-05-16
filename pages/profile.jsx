@@ -28,6 +28,7 @@ export async function getServerSideProps(context) {
       },
     };
   }
+
   const client = await clientPromise;
   const db = client.db('Users');
   const user = await db.collection('Profiles').findOne({ Username: username });
