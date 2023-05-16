@@ -31,9 +31,12 @@ export default function HomePage({ username }) {
 export async function getServerSideProps(context) {
   const req = context.req;
   const res = context.res;
-  var username = getCookie('username', { req, res });
-  if (username == undefined) {
+  const token = getCookie('token', { req, res });
+  console.log(token);
+  let username = true;
+  if (token == undefined) {
     username = false;
   }
+
   return { props: { username } };
 }

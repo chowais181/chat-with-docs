@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import Layout from '../components/layout';
 import Link from 'next/link';
+import styles from '@/styles/Home.module.css';
 
 const FileUpload: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -13,11 +14,15 @@ const FileUpload: React.FC = () => {
     if (files && files.length > 0) {
       const fileList = Array.from(files);
       setSelectedFiles(fileList);
+      setError(null);
+      setMessage(null);
     }
   };
 
   const handleUpload = async () => {
     try {
+      setLoading(true);
+
       const formData = new FormData();
       selectedFiles.forEach((file) => {
         formData.append(`files`, file);
@@ -33,10 +38,11 @@ const FileUpload: React.FC = () => {
       } else {
         setMessage(data.message);
       }
-
+      setSelectedFiles([]);
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      setSelectedFiles([]);
       setError(
         'An error occurred while ingesting  the data. Please try again.',
       );
@@ -51,15 +57,33 @@ const FileUpload: React.FC = () => {
         <input type="file" accept=".pdf" multiple onChange={handleFileChange} />
         {selectedFiles.length > 0 && (
           <div>
+            <br />
             <p>Selected files:</p>
             <ul>
               {selectedFiles.map((file, index) => (
                 <li key={index}>{file.name}</li>
               ))}
             </ul>
-            <button onClick={handleUpload}>Upload Files</button>
+            <button onClick={handleUpload} disabled={loading}>
+              Upload Files
+            </button>
           </div>
         )}
+        <br />
+        {loading ? <h4>Loading ...</h4> : ''}
+        <br />
+        <div className={styles.center}>
+          {message && (
+            <div className="border border-green-400 rounded-md p-4 w-80 ">
+              <p className="text-green-500">{message}</p>
+            </div>
+          )}
+          {error && (
+            <div className="border border-red-400 rounded-md p-4 w-80">
+              <p className="text-red-500">{error}</p>
+            </div>
+          )}
+        </div>
       </div>
     </Layout>
   );

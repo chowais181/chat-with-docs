@@ -1,7 +1,7 @@
-import Layout from "../components/layout";
-import { getCookie } from "cookies-next";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import Layout from '../components/layout';
+import { getCookie } from 'cookies-next';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export default function SignupPage({ username }) {
   const router = useRouter();
@@ -19,6 +19,15 @@ export default function SignupPage({ username }) {
           id="username"
           type="text"
           placeholder="username"
+          required
+        ></input>
+        <br />
+        <input
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+          name="email"
+          id="email"
+          type="email"
+          placeholder="email"
           required
         ></input>
         <br />
@@ -49,12 +58,12 @@ export default function SignupPage({ username }) {
 export async function getServerSideProps(context) {
   const req = context.req;
   const res = context.res;
-  var username = getCookie("username", { req, res });
+  var username = getCookie('username', { req, res });
   if (username != undefined) {
     return {
       redirect: {
         permanent: false,
-        destination: "/",
+        destination: '/',
       },
     };
   }

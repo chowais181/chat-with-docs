@@ -24,6 +24,7 @@
     "dotenv": "^16.0.3",
     "formidable": "^2.1.1",
     "fs": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.0",
     "langchain": "0.0.55",
     "lucide-react": "^0.125.0",
     "mongodb": "^5.5.0",

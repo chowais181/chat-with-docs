@@ -80,38 +80,38 @@ export default async function handler(
       console.log(docsWithMetadata);
 
       //embed the PDF documents
-      const result = await PineconeStore.fromDocuments(
-        docsWithMetadata,
-        embeddings,
-        {
-          pineconeIndex: index,
-          namespace: PINECONE_NAME_SPACE,
-          textKey: 'text',
-        },
-      );
+      // const result = await PineconeStore.fromDocuments(
+      //   docsWithMetadata,
+      //   embeddings,
+      //   {
+      //     pineconeIndex: index,
+      //     namespace: PINECONE_NAME_SPACE,
+      //     textKey: 'text',
+      //   },
+      // );
 
       console.log('ingestion completed');
-      if (result) {
-        // Delete all files from the "docs" folder
-        const folderPath = path.join(process.cwd(), 'docs');
-        fs.readdir(folderPath, (err, files) => {
-          if (err) {
-            console.log('Error reading directory', err);
-            return;
-          }
+      // if (result) {
+      //   // Delete all files from the "docs" folder
+      const folderPath = path.join(process.cwd(), 'docs');
+      fs.readdir(folderPath, (err, files) => {
+        if (err) {
+          console.log('Error reading directory', err);
+          return;
+        }
 
-          files.forEach((file) => {
-            const filePath = path.join(folderPath, file);
-            fs.unlink(filePath, (err) => {
-              if (err) {
-                console.log('Error deleting file', err);
-                return;
-              }
-              console.log(`Deleted file: ${filePath}`);
-            });
+        files.forEach((file) => {
+          const filePath = path.join(folderPath, file);
+          fs.unlink(filePath, (err) => {
+            if (err) {
+              console.log('Error deleting file', err);
+              return;
+            }
+            console.log(`Deleted file: ${filePath}`);
           });
         });
-      }
+      });
+      // }
 
       res.status(200).json({ message: 'Ingestion complete' });
     });

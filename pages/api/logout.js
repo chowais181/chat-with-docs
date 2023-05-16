@@ -1,11 +1,11 @@
-import Cookies from "cookies";
+import Cookies from 'cookies';
 
 export default async function handler(req, res) {
-  if (req.method == "GET") {
+  if (req.method == 'GET') {
     const cookies = new Cookies(req, res);
-    cookies.set("username");
-    res.redirect("/");
+    cookies.set('token');
+    res.redirect('/');
   } else {
-    res.redirect("/");
+    res.redirect('/');
   }
 }

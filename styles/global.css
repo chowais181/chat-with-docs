@@ -55,6 +55,7 @@ input[type='submit']:hover {
 }
 
 input[type='text'],
+input[type='email'],
 input[type='password'] {
   padding: 10px;
   border-radius: 30px;
@@ -63,13 +64,14 @@ input[type='password'] {
   outline: none;
   font-size: 15px;
   transition: 0.2s;
-  width: 200px;
+  width: 230px;
   margin-bottom: 30px;
   color: var(--font-color);
   text-align: center;
 }
 
 input[type='text']:focus,
+input[type='email']:focus,
 input[type='password']:focus {
   border-color: var(--dark-accent);
 }

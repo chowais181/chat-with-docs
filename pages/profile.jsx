@@ -19,7 +19,7 @@ export default function ProfilePage({ username, created }) {
 export async function getServerSideProps(context) {
   const req = context.req;
   const res = context.res;
-  var username = getCookie('username', { req, res });
+  var username = getCookie('token', { req, res });
   if (username == undefined) {
     return {
       redirect: {
@@ -30,12 +30,9 @@ export async function getServerSideProps(context) {
   }
   const client = await clientPromise;
   const db = client.db('Users');
-  const users = await db
-    .collection('Profiles')
-    .find({ Username: username })
-    .toArray();
-  const userdoc = users[0];
-  const created = userdoc['Created'];
+  const user = await db.collection('Profiles').findOne({ Username: username });
+
+  const created = user?.Created;
   return {
     props: { username: username, created: created },
   };
