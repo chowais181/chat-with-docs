@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import Layout from '../components/layout';
 import Link from 'next/link';
+import { getCookie } from 'cookies-next';
 import styles from '@/styles/Home.module.css';
 
 const FileUpload: React.FC = () => {
@@ -90,3 +91,20 @@ const FileUpload: React.FC = () => {
 };
 
 export default FileUpload;
+export async function getServerSideProps(context: any) {
+  const req = context.req;
+  const res = context.res;
+  const token = getCookie('token', { req, res });
+  if (!token) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+    };
+  }
+
+  return {
+    props: { token: token },
+  };
+}

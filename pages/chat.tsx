@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import Layout from '../components/layout';
+import { getCookie } from 'cookies-next';
 import styles from '@/styles/Home.module.css';
 import { Message } from '@/types/chat';
 import Image from 'next/image';
@@ -14,7 +15,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
-export default function Home() {
+export default function Chat() {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,6 +34,8 @@ export default function Home() {
     history: [],
   });
 
+  const [user, setUser] = useState(null);
+
   const { messages, history } = messageState;
 
   const messageListRef = useRef<HTMLDivElement>(null);
@@ -46,6 +49,16 @@ export default function Home() {
   async function handleSubmit(e: any) {
     e.preventDefault();
 
+    // Fetch user data first
+    try {
+      const response = await fetch('/api/user');
+      const data = await response.json();
+
+      setUser(data);
+    } catch (error: any) {
+      console.error('Error fetching user:', error);
+      setError(error);
+    }
     setError(null);
 
     if (!query) {
@@ -78,6 +91,7 @@ export default function Home() {
         body: JSON.stringify({
           question,
           history,
+          user,
         }),
       });
       const data = await response.json();
@@ -123,7 +137,7 @@ export default function Home() {
 
   return (
     <>
-      <Layout pageTitle="Login">
+      <Layout pageTitle="Chat with docs">
         <Link href="/">Home</Link>
         <br />
         <div className="mx-auto flex flex-col gap-4">
@@ -268,4 +282,22 @@ export default function Home() {
       </Layout>
     </>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const req = context.req;
+  const res = context.res;
+  const token = getCookie('token', { req, res });
+  if (!token) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+    };
+  }
+
+  return {
+    props: { token: token },
+  };
 }

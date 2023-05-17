@@ -12,7 +12,7 @@ export default function HomePage({ username }) {
           <br />
           <Link href="/chat">Chat with Docs</Link>
           <br />
-          <Link href="/fileUpload">Upload PDF</Link>
+          <Link href="/file-upload">Upload PDF</Link>
           <br />
           <Link href="/api/logout">Logout</Link>
         </>
@@ -32,7 +32,7 @@ export async function getServerSideProps(context) {
   const req = context.req;
   const res = context.res;
   const token = getCookie('token', { req, res });
-  console.log(token);
+
   let username = true;
   if (token == undefined) {
     username = false;

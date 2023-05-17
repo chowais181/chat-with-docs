@@ -5,7 +5,6 @@ import { makeChain } from '@/utils/makechain';
 import { pinecone } from '@/utils/pinecone-client';
 import { getCookie } from 'cookies-next';
 import { PINECONE_INDEX_NAME, PINECONE_NAME_SPACE } from '@/config/pinecone';
-import clientPromise from '../../lib/mongodb';
 
 export default async function handler(
   req: NextApiRequest,
@@ -54,25 +53,4 @@ export default async function handler(
     console.log('error', error);
     res.status(500).json({ error: error.message || 'Something went wrong' });
   }
-}
-
-export async function getServerSideProps(context: any) {
-  const req = context.req;
-  const res = context.res;
-  var username = getCookie('username', { req, res });
-  if (username == undefined) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/',
-      },
-    };
-  }
-  const client = await clientPromise;
-  const db = client.db('Users');
-  const user = await db.collection('Profiles').findOne({ Username: username });
-
-  return {
-    props: { username: username },
-  };
 }

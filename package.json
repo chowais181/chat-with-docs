@@ -21,6 +21,7 @@
     "clsx": "^1.2.1",
     "cookies": "^0.8.0",
     "cookies-next": "^2.1.1",
+    "dns": "^0.2.2",
     "dotenv": "^16.0.3",
     "formidable": "^2.1.1",
     "fs": "^0.0.1-security",
