@@ -48,18 +48,22 @@ export default function Chat() {
   //handle form submission
   async function handleSubmit(e: any) {
     e.preventDefault();
-
+    setError(null);
     // Fetch user data first
     try {
       const response = await fetch('/api/user');
       const data = await response.json();
-
-      setUser(data);
+      if (data.error) {
+        setError(data.error);
+        return;
+      } else {
+        setUser(data);
+      }
     } catch (error: any) {
-      console.error('Error fetching user:', error);
-      setError(error);
+      setLoading(false);
+      setError('An error occurred while fetching the data. Please try again.');
+      return;
     }
-    setError(null);
 
     if (!query) {
       alert('Please input a question');
@@ -95,7 +99,7 @@ export default function Chat() {
         }),
       });
       const data = await response.json();
-      console.log('data', data);
+      // console.log('data', data);
 
       if (data.error) {
         setError(data.error);
@@ -113,7 +117,7 @@ export default function Chat() {
           history: [...state.history, [question, data.text]],
         }));
       }
-      console.log('messageState', messageState);
+      // console.log('messageState', messageState);
 
       setLoading(false);
 
