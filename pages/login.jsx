@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 export default function LoginPage() {
   const router = useRouter();
   const { msg } = router.query;
-  const apiUrl = `${process.env.FRONTEND_URL}/api/login`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/login`;
   return (
     <Layout pageTitle="Login">
       <Link href="/">Home</Link>

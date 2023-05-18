@@ -6,7 +6,8 @@ import { useRouter } from 'next/router';
 export default function SignupPage({ username }) {
   const router = useRouter();
   const { msg } = router.query;
-  const apiUrl = `${process.env.FRONTEND_URL}/api/signup`;
+
+  const apiUrl = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/signup`;
   return (
     <Layout pageTitle="Signup">
       <Link href="/">Home</Link>
