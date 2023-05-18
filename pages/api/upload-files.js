@@ -45,12 +45,11 @@ export default async function handler(req, res) {
     }
 
     // Update the user's files with the uniqueFiles array
-    user.files = uniqueFiles;
-
+    user.files = [...user.files, ...uniqueFiles];
     // Save the updated user data to the database
     await db
       .collection('Profiles')
-      .updateOne({ _id: objectId }, { $set: user });
+      .updateOne({ _id: objectId }, { $set: { files: user.files } });
 
     // Return the updated user data as the API response
     res.status(200).json(user);

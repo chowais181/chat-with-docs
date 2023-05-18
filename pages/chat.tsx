@@ -194,14 +194,17 @@ export default function Chat() {
               <br />
               <div className="text-black">
                 {user &&
-                  user?.files?.map((file: any, index: number) => (
-                    <React.Fragment key={file.name}>
-                      <p>{file?.name.split('.pdf')[0]}</p>
-                      {index !== user.files.length - 1 && (
-                        <hr className="my-2" />
-                      )}
-                    </React.Fragment>
-                  ))}
+                  user?.files
+                    ?.slice()
+                    .reverse()
+                    ?.map((file: any, index: number) => (
+                      <React.Fragment key={file.name}>
+                        <p>{file?.name.split('.pdf')[0]}</p>
+                        {index !== user.files.length - 1 && (
+                          <hr className="my-2" />
+                        )}
+                      </React.Fragment>
+                    ))}
               </div>
             </div>
           </div>
