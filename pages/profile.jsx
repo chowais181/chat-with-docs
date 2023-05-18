@@ -23,7 +23,7 @@ export default function ProfilePage() {
     <Layout pageTitle="Profile">
       <Link href="/">Home</Link>
       <br />
-      <h2>{user?.Username}'s Profile</h2>
+      <h2>{user?.Username} Profile</h2>
       <p>
         Account created at <strong>{user?.Created}</strong>
       </p>
