@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import Layout from '../components/layout';
 // import LayoutChat from '../components/layoutChat';
 import { getCookie } from 'cookies-next';
