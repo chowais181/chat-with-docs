@@ -6,13 +6,14 @@ import { useRouter } from 'next/router';
 export default function LoginPage() {
   const router = useRouter();
   const { msg } = router.query;
+  const apiUrl = `${process.env.FRONTEND_URL}/api/login`;
   return (
     <Layout pageTitle="Login">
       <Link href="/">Home</Link>
       <br />
       {msg ? <h3 className="red">{msg}</h3> : <></>}
       <h2>Log in</h2>
-      <form action="/api/login" method="POST">
+      <form action={apiUrl} method="POST">
         <input
           minLength="3"
           name="username"

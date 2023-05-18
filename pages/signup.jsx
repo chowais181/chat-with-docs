@@ -6,13 +6,15 @@ import { useRouter } from 'next/router';
 export default function SignupPage({ username }) {
   const router = useRouter();
   const { msg } = router.query;
+  const apiUrl = `${process.env.FRONTEND_URL}/api/signup`;
   return (
     <Layout pageTitle="Signup">
       <Link href="/">Home</Link>
       <br />
       {msg ? <h3 className="red">{msg}</h3> : <></>}
       <h2>Sign up</h2>
-      <form action="/api/signup" method="POST">
+
+      <form action={apiUrl} method="POST">
         <input
           minLength="3"
           name="username"
