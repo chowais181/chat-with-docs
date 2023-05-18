@@ -7,7 +7,8 @@ export default function HomePage({ username }) {
     <Layout pageTitle="Home">
       {username ? (
         <>
-          <h2>Hi {username}</h2>
+          <Link href="/">Home</Link>
+          <br />
           <Link href="/profile">Profile</Link>
           <br />
           <Link href="/chat">Chat with Docs</Link>

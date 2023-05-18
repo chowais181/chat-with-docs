@@ -6,6 +6,7 @@ import styles from '@/styles/Home.module.css';
 
 const FileUpload: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [fileNames, setFileNames] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -14,7 +15,9 @@ const FileUpload: React.FC = () => {
     const files = event.target.files;
     if (files && files.length > 0) {
       const fileList = Array.from(files);
+      const fileNames = Array.from(files).map((file) => file.name);
       setSelectedFiles(fileList);
+      setFileNames(fileNames);
       setError(null);
       setMessage(null);
     }
@@ -28,6 +31,29 @@ const FileUpload: React.FC = () => {
       selectedFiles.forEach((file) => {
         formData.append(`files`, file);
       });
+      // get the login user
+      try {
+        const response = await fetch('/api/upload-files', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ files: fileNames }),
+        });
+        const data = await response.json();
+        if (data.error) {
+          setError(data.error);
+          setLoading(false);
+          return;
+        }
+      } catch (error: any) {
+        setLoading(false);
+        setError(
+          'An error occurred while fetching the data. Please try again.',
+        );
+        return;
+      }
+
       const response = await fetch('/api/ingest-data', {
         method: 'POST',
         body: formData,
