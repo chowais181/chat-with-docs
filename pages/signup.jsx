@@ -58,8 +58,8 @@ export default function SignupPage({ username }) {
 export async function getServerSideProps(context) {
   const req = context.req;
   const res = context.res;
-  var username = getCookie('username', { req, res });
-  if (username != undefined) {
+  var token = getCookie('token', { req, res });
+  if (token != undefined) {
     return {
       redirect: {
         permanent: false,
@@ -67,5 +67,5 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  return { props: { username: false } };
+  return { props: {} };
 }

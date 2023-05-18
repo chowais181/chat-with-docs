@@ -22,6 +22,7 @@ export default async function handler(req, res) {
     const guess_hash = createHash('sha256').update(guess).digest('hex');
     if (guess_hash == user.Password) {
       const cookies = new Cookies(req, res);
+
       const token = sign({ id: user?._id }, process.env.SECRET_KEY, {
         expiresIn: '1h',
       });

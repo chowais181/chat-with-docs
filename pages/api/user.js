@@ -17,6 +17,7 @@ export default async function handler(req, res) {
     // Retrieve user data from the decoded token (assuming it contains the user object)
     const userId = decodedToken.id;
 
+    console.log(process.env.SECRET_KEY);
     // Create a MongoDB ObjectId using the user ID
     const objectId = new ObjectId(userId);
     const client = await clientPromise;

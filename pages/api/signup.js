@@ -1,4 +1,5 @@
 import Cookies from 'cookies';
+import { sign } from 'jsonwebtoken';
 import clientPromise from '../../lib/mongodb';
 const { createHash } = require('node:crypto');
 
@@ -30,9 +31,19 @@ export default async function handler(req, res) {
       Password: password_hash,
       Created: currentDate,
     };
-    await db.collection('Profiles').insertOne(bodyObject);
+    const user = await db.collection('Profiles').insertOne(bodyObject);
     const cookies = new Cookies(req, res);
-    cookies.set('username', username);
+    const token = sign({ id: user?.insertedId }, process.env.SECRET_KEY, {
+      expiresIn: '1h',
+    });
+
+    cookies.set('token', token, {
+      maxAge: 3600000, // 1 hour in milliseconds
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+    });
     res.redirect('/');
   } else {
     res.redirect('/');
