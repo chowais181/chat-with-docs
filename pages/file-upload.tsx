@@ -31,28 +31,6 @@ const FileUpload: React.FC = () => {
       selectedFiles.forEach((file) => {
         formData.append(`files`, file);
       });
-      // get the login user
-      try {
-        const response = await fetch('/api/upload-files', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ files: fileNames }),
-        });
-        const data = await response.json();
-        if (data.error) {
-          setError(data.error);
-          setLoading(false);
-          return;
-        }
-      } catch (error: any) {
-        setLoading(false);
-        setError(
-          'An error occurred while fetching the data. Please try again.',
-        );
-        return;
-      }
 
       const response = await fetch('/api/ingest-data', {
         method: 'POST',
@@ -63,6 +41,28 @@ const FileUpload: React.FC = () => {
       if (data.error) {
         setError(data.error);
       } else {
+        // upload the files
+        try {
+          const response = await fetch('/api/upload-files', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ files: fileNames }),
+          });
+          const data = await response.json();
+          if (data.error) {
+            setError(data.error);
+            setLoading(false);
+            return;
+          }
+        } catch (error: any) {
+          setLoading(false);
+          setError(
+            'An error occurred while fetching the data. Please try again.',
+          );
+          return;
+        }
         setMessage(data.message);
       }
       setSelectedFiles([]);

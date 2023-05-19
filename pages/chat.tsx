@@ -193,7 +193,7 @@ export default function Chat() {
             <div className="p-4 mt-10">
               <br />
               <div className="text-black">
-                {user &&
+                {user && user?.files?.length > 0 ? (
                   user?.files
                     ?.slice()
                     .reverse()
@@ -204,7 +204,14 @@ export default function Chat() {
                           <hr className="my-2" />
                         )}
                       </React.Fragment>
-                    ))}
+                    ))
+                ) : (
+                  <React.Fragment>
+                    <p>You Don't have any file Uploaded</p>
+                    <p>Please Upload your files to chat</p>
+                    <Link href="/file-upload">Upload Files</Link>
+                  </React.Fragment>
+                )}
               </div>
             </div>
           </div>
