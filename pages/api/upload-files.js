@@ -44,12 +44,17 @@ export default async function handler(req, res) {
       uniqueFiles.push(newFile);
     }
 
-    // Update the user's files with the uniqueFiles array
-    user.files = [...user.files, ...uniqueFiles];
+    // Check if the user object has the 'files' property and if it's iterable
+    if (user.files && typeof user.files[Symbol.iterator] === 'function') {
+      // 'files' property is iterable, proceed with appending new files
+      user.files = [...user.files, ...uniqueFiles];
+    } else {
+      user.files = uniqueFiles;
+    }
     // Save the updated user data to the database
     await db
       .collection('Profiles')
-      .updateOne({ _id: objectId }, { $set: { files: user.files } });
+      .updateOne({ _id: objectId }, { $set: { files: user?.files } });
 
     // Return the updated user data as the API response
     res.status(200).json(user);
