@@ -40,7 +40,6 @@ export default async function handler(req, res) {
     cookies.set('token', token, {
       maxAge: 3600000, // 1 hour in milliseconds
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       path: '/',
     });
