@@ -19,9 +19,9 @@ export default function Layout({ pageTitle, children }) {
       </Head>
       <main className="flex-grow">{children}</main>
       <footer className="m-auto p-4 ">
-        <a href="" className="text-white">
-          Powered by Coduko.
-        </a>
+        {/* <a href="" className="text-white"> */}
+        Powered by Coduko.
+        {/* </a> */}
       </footer>
     </div>
   );

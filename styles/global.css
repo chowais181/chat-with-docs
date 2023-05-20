@@ -26,6 +26,11 @@ strong {
   color: var(--light-accent);
 }
 
+Link {
+  text-decoration: none;
+  color: var(--primary);
+}
+
 a {
   text-decoration: none;
   color: var(--primary);

@@ -2,6 +2,7 @@ import Layout from '../components/layout';
 import { getCookie } from 'cookies-next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import styles from '@/styles/Index.module.css';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -9,31 +10,35 @@ export default function LoginPage() {
   const apiUrl = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/login`;
   return (
     <Layout pageTitle="Login">
-      <Link href="/">Home</Link>
-      <br />
-      {msg ? <h3 className="red">{msg}</h3> : <></>}
-      <h2>Log in</h2>
-      <form action={apiUrl} method="POST">
-        <input
-          minLength="3"
-          name="username"
-          id="username"
-          type="text"
-          placeholder="username"
-          required
-        ></input>
+      <div className={styles.authPages}>
+        {msg ? <h3 className="red">{msg}</h3> : <></>}
+        <p className={styles.heading1}>Login</p>
+        <form action={apiUrl} method="POST">
+          <input
+            minLength="3"
+            name="username"
+            id="username"
+            type="text"
+            placeholder="username"
+            required
+          ></input>
+          <br />
+          <input
+            minLength="5"
+            name="password"
+            id="password"
+            type="password"
+            placeholder="password"
+            required
+          ></input>
+          <br />
+          <input type="submit" value="Login" />
+        </form>
         <br />
-        <input
-          minLength="5"
-          name="password"
-          id="password"
-          type="password"
-          placeholder="password"
-          required
-        ></input>
-        <br />
-        <input type="submit" value="Login" />
-      </form>
+        <p>
+          Don't have an account? <Link href="/signup">Signup</Link>
+        </p>
+      </div>
     </Layout>
   );
 }

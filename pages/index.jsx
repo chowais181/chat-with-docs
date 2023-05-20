@@ -1,6 +1,7 @@
 import Layout from '../components/layout';
 import { getCookie } from 'cookies-next';
 import Link from 'next/link';
+import styles from '@/styles/Index.module.css';
 
 export default function HomePage({ username }) {
   return (
@@ -19,10 +20,17 @@ export default function HomePage({ username }) {
         </>
       ) : (
         <>
-          <h2>Welcome </h2>
-          <Link href="/login">Login</Link>
-          <br />
-          <Link href="/signup">Signup</Link>
+          <p className={styles.heading}>Chat with any PDF</p>
+          <div className={styles.centerContainer}>
+            <div className="authLinks">
+              <div className={styles.linkContainerStyles}>
+                <Link href="/login">Login</Link>
+              </div>
+              <div className={styles.linkContainerStyles}>
+                <Link href="/signup">Signup</Link>
+              </div>
+            </div>
+          </div>
         </>
       )}
     </Layout>
