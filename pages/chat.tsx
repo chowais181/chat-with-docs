@@ -273,7 +273,7 @@ export default function Chat() {
                             ))
                         ) : (
                           <React.Fragment>
-                            <p>You Don't have any file Uploaded</p>
+                            <p>You Don&apos;t have any file Uploaded</p>
                             <p>Please Upload your files to chat</p>
                           </React.Fragment>
                         )}
