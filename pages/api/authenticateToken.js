@@ -8,7 +8,7 @@ export default function authenticateToken(req, res, next) {
   }
 
   try {
-    const decoded = verify(token, process.env.SECRET_KEY);
+    const decoded = verify(token, process.env.NEXT_PUBLIC_SECRET_KEY);
     req.user = decoded;
     return next();
   } catch (error) {

@@ -10,6 +10,7 @@ export default function LoginPage() {
   const apiUrl = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/login`;
   return (
     <Layout pageTitle="Login">
+      <p className={styles.heading}>Chat with any PDF</p>
       <div className={styles.authPages}>
         {msg ? <h3 className="red">{msg}</h3> : <></>}
         <p className={styles.heading1}>Login</p>

@@ -12,12 +12,10 @@ export default async function handler(req, res) {
     }
 
     // Verify the token
-    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+    const decodedToken = jwt.verify(token, process.env.NEXT_PUBLIC_SECRET_KEY);
 
     // Retrieve user data from the decoded token (assuming it contains the user object)
     const userId = decodedToken.id;
-
-    console.log(process.env.SECRET_KEY);
     // Create a MongoDB ObjectId using the user ID
     const objectId = new ObjectId(userId);
     const client = await clientPromise;

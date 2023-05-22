@@ -18,11 +18,11 @@ export default function Layout({ pageTitle, children }) {
         <title>{pageTitle}</title>
       </Head>
       <main className="flex-grow">{children}</main>
-      <footer className="m-auto p-4 ">
-        {/* <a href="" className="text-white"> */}
-        Powered by Coduko.
-        {/* </a> */}
-      </footer>
+      {pageTitle == 'Chat with Pdf' ? (
+        ''
+      ) : (
+        <footer className="m-auto p-4 ">Powered by Coduko.</footer>
+      )}
     </div>
   );
 }

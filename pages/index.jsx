@@ -2,13 +2,14 @@ import Layout from '../components/layout';
 import { getCookie } from 'cookies-next';
 import Link from 'next/link';
 import styles from '@/styles/Index.module.css';
+import FileUpload from './file-upload';
 
 export default function HomePage({ username }) {
   return (
     <Layout pageTitle="Home">
       {username ? (
         <>
-          <Link href="/">Home</Link>
+          {/* <Link href="/">Home</Link>
           <br />
           <Link href="/profile">Profile</Link>
           <br />
@@ -17,6 +18,8 @@ export default function HomePage({ username }) {
           <Link href="/file-upload">Upload PDF</Link>
           <br />
           <Link href="/api/logout">Logout</Link>
+        </> */}
+          <FileUpload />
         </>
       ) : (
         <>

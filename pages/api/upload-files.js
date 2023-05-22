@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     }
 
     // Verify the token
-    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+    const decodedToken = jwt.verify(token, process.env.NEXT_PUBLIC_SECRET_KEY);
 
     // Retrieve user data from the decoded token (assuming it contains the user object)
     const userId = decodedToken.id;
@@ -30,15 +30,9 @@ export default async function handler(req, res) {
     // Process each file
     const uniqueFiles = [];
     for (const file of files) {
-      // Generate a unique ID for the file
-      const fileId = new ObjectId();
-
-      // Create a unique file name by appending the file ID to the original file name
-      const uniqueFileName = `${file}_${fileId}`;
-
       // Store the unique file name with the user ID
       const newFile = {
-        name: uniqueFileName,
+        name: file,
       };
       // Add the new file to the uniqueFiles array
       uniqueFiles.push(newFile);

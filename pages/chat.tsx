@@ -16,10 +16,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import Loader from '@/components/Loader';
 
 export default function Chat() {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingSideBar, setLoadingSideBar] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [messageState, setMessageState] = useState<{
     messages: Message[];
@@ -37,8 +39,21 @@ export default function Chat() {
   });
 
   const [user, setUser] = useState<any>(null);
+  const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
 
-  console.log(user);
+  const handleFileSelection = (fileName: string) => {
+    if (selectedFiles.includes(fileName)) {
+      setSelectedFiles(selectedFiles.filter((file) => file !== fileName));
+    } else {
+      setSelectedFiles([...selectedFiles, fileName]);
+    }
+  };
+
+  const clearAllSelection = () => {
+    setSelectedFiles([]);
+  };
+
+  console.log(selectedFiles);
 
   const { messages, history } = messageState;
 
@@ -50,16 +65,19 @@ export default function Chat() {
 
     const fetchData = async () => {
       try {
+        setLoadingSideBar(true);
         const response = await fetch('/api/user');
         const data = await response.json();
         if (data.error) {
           setError(data.error);
+          setLoadingSideBar(false);
           return;
         } else {
           setUser(data);
+          setLoadingSideBar(false);
         }
       } catch (error: any) {
-        setLoading(false);
+        setLoadingSideBar(false);
         setError(
           'An error occurred while fetching the data. Please try again.',
         );
@@ -107,6 +125,7 @@ export default function Chat() {
           question,
           history,
           user,
+          selectedFiles,
         }),
       });
       const data = await response.json();
@@ -177,9 +196,7 @@ export default function Chat() {
 
   return (
     <>
-      <Layout pageTitle="Chat with docs">
-        <Link href="/">Home</Link>
-        <br />
+      <Layout pageTitle="Chat with Pdf">
         <div className="flex">
           {/* Sidebar */}
           <div
@@ -187,30 +204,137 @@ export default function Chat() {
               isSidebarOpen || !shouldShowMenuIcon ? 'block' : 'hidden'
             } ${
               shouldShowMenuIcon ? 'fixed top-0 left-0 w-[280px]' : 'w-[280px]'
-            } bg-gray-200 overflow-y-auto h-screen z-10`}
+            } bg-gray-200  h-screen z-10`}
           >
             {/* Sidebar content */}
             <div className="p-4 mt-10">
               <br />
               <div className="text-black">
-                {user && user?.files?.length > 0 ? (
-                  user?.files
-                    ?.slice()
-                    .reverse()
-                    ?.map((file: any, index: number) => (
-                      <React.Fragment key={file.name}>
-                        <p>{file?.name.split('.pdf')[0]}</p>
-                        {index !== user.files.length - 1 && (
-                          <hr className="my-2" />
-                        )}
-                      </React.Fragment>
-                    ))
+                {loadingSideBar ? (
+                  <Loader />
                 ) : (
-                  <React.Fragment>
-                    <p>You Don't have any file Uploaded</p>
-                    <p>Please Upload your files to chat</p>
-                    <Link href="/file-upload">Upload Files</Link>
-                  </React.Fragment>
+                  <div className={styles.sidebar}>
+                    <div className={styles.plusFileContainer}>
+                      <Link href="/file-upload" className={styles.link}>
+                        <div className={styles.iconAndTextContainer}>
+                          <svg
+                            className={styles.icon}
+                            stroke="currentColor"
+                            fill="none"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            height="1em"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                          <span className={styles.text}>Upload pdf file</span>
+                        </div>
+                      </Link>
+                    </div>
+                    <br />
+                    <div className={styles.sidebarOverflow}>
+                      <div>
+                        {/* Clear All Selection button */}
+                        {selectedFiles.length > 0 && (
+                          <button
+                            className={styles.clearSelectionButton}
+                            onClick={clearAllSelection}
+                          >
+                            Clear Selections
+                          </button>
+                        )}
+                        {user && user?.files?.length > 0 ? (
+                          user?.files
+                            ?.slice()
+                            .reverse()
+                            ?.map((file: any, index: number) => (
+                              <React.Fragment key={file.name}>
+                                <label className={styles.fileLabel}>
+                                  <input
+                                    type="checkbox"
+                                    checked={selectedFiles.includes(file.name)}
+                                    onChange={() =>
+                                      handleFileSelection(file.name)
+                                    }
+                                  />
+                                  <span className={styles.fileName}>
+                                    {file?.name.split('_')[0]}
+                                  </span>
+                                </label>
+                                {index !== user.files.length - 1 && (
+                                  <hr className="my-2" />
+                                )}
+                              </React.Fragment>
+                            ))
+                        ) : (
+                          <React.Fragment>
+                            <p>You Don't have any file Uploaded</p>
+                            <p>Please Upload your files to chat</p>
+                          </React.Fragment>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* user data email and settings */}
+                    <div className={styles.userContainer}>
+                      <div className={styles.userIcon}>
+                        <svg
+                          className={styles.icon}
+                          stroke="currentColor"
+                          fill="none"
+                          strokeWidth="2"
+                          viewBox="0 0 24 24"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          height="1em"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle cx="12" cy="12" r="10" />
+                          <path d="M17.6 14.8c.9-1.2 1.4-2.7 1.4-4.3 0-3.9-3.1-7-7-7s-7 3.1-7 7c0 1.6.5 3.1 1.4 4.3" />
+                          <path d="M12 17c-2.2 0-4-1.8-4-4h8c0 2.2-1.8 4-4 4z" />
+                        </svg>
+                      </div>
+                      <div className={styles.userInfo}>
+                        <span className={styles.userEmail}>{user?.Email}</span>
+                        <div className={styles.dropdown}>
+                          <svg
+                            className={styles.dropdownIcon}
+                            stroke="currentColor"
+                            fill="none"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            height="1em"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path d="M6 9l6 6 6-6" />
+                          </svg>
+                          <div className={styles.dropdownContent}>
+                            <Link
+                              href="/api/logout"
+                              className={styles.dropdownItem}
+                            >
+                              Logout
+                            </Link>
+                            <Link
+                              href="/settings"
+                              className={styles.dropdownItem}
+                            >
+                              Settings
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
@@ -230,8 +354,8 @@ export default function Chat() {
 
             {/* Chat content */}
             <div className="mx-auto flex flex-col gap-4">
-              <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-                Chat With Your Docs
+              <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center mt-5">
+                Chat with any PDF
               </h1>
               <main className={styles.main}>
                 <div className={styles.cloud}>
@@ -371,6 +495,9 @@ export default function Chat() {
                     <p className="text-red-500">{error}</p>
                   </div>
                 )}
+                <footer className="m-auto p-4 text-white">
+                  Powered by Coduko.
+                </footer>
               </main>
             </div>
           </div>

@@ -23,9 +23,13 @@ export default async function handler(req, res) {
     if (guess_hash == user.Password) {
       const cookies = new Cookies(req, res);
 
-      const token = sign({ id: user?._id }, process.env.SECRET_KEY, {
-        expiresIn: '1h',
-      });
+      const token = sign(
+        { id: user?._id },
+        process.env.NEXT_PUBLIC_SECRET_KEY,
+        {
+          expiresIn: '1h',
+        },
+      );
 
       cookies.set('token', token, {
         maxAge: 3600000, // 1 hour in milliseconds

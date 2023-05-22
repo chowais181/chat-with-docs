@@ -9,7 +9,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { question, history, user } = req.body;
+  const { question, history, user, selectedFiles } = req.body;
 
   //only accept post requests
   if (req.method !== 'POST') {
@@ -32,7 +32,12 @@ export default async function handler(
         pineconeIndex: index,
         textKey: 'text',
         filter: {
-          userId: { $in: ['60677ed5-e3cc-43e0-ac3d-61b233d77c28'] },
+          $and: [
+            { userId: user?._id }, // Filter by userId
+            ...(selectedFiles.length > 0
+              ? [{ fileName: { $in: selectedFiles } }] // Filter by fileName(s)
+              : []), // Omit the filter if selectedFiles is empty
+          ],
         },
         namespace: PINECONE_NAME_SPACE, //namespace comes from your config folder
       },

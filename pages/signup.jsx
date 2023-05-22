@@ -11,6 +11,7 @@ export default function SignupPage({ username }) {
   const apiUrl = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/signup`;
   return (
     <Layout pageTitle="Signup">
+      <p className={styles.heading}>Chat with any PDF</p>
       <div className={styles.authPages}>
         {msg ? <h3 className="red">{msg}</h3> : <></>}
         <h2 className={styles.heading1}>Sign up</h2>

@@ -9,6 +9,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
 import formidable from 'formidable';
+import { parse } from 'cookie';
+import jwt from 'jsonwebtoken';
 
 let filePath = path.join(process.cwd(), 'docs');
 
@@ -26,6 +28,18 @@ export default async function handler(
     if (req.method !== 'POST') {
       return res.status(405).json({ error: 'Method Not Allowed' });
     }
+
+    const cookies = parse(req.headers.cookie || '');
+    const token: any = cookies.token;
+    const secret: any = process.env.NEXT_PUBLIC_SECRET_KEY;
+    if (!token) {
+      res.status(500).json({ error: 'Unable to fetch user data' });
+      return;
+    }
+    // Verify the token
+    const decodedToken: any = jwt.verify(token, secret);
+    // Retrieve user data from the decoded token (assuming it contains the user object)
+    const userId = decodedToken.id;
 
     const form = new formidable.IncomingForm({
       maxFiles: 5,
@@ -64,53 +78,55 @@ export default async function handler(
       /*create and store the embeddings in the vectorStore*/
       const embeddings = new OpenAIEmbeddings();
       const index = pinecone.Index(PINECONE_INDEX_NAME); //change to your own index name
-      // Generate a unique ID for the user
-      // const userId = uuidv4();
-      // console.log(userId);
-      // Associate the user's ID with the document metadata
-      const docsWithMetadata = docs.map((doc) => ({
-        ...doc,
-        metadata: {
-          ...doc.metadata,
-          // userId: userId,
-        },
-      }));
 
-      console.log(docsWithMetadata);
+      // Associate the user's ID with the document metadata
+      const docsWithMetadata = docs.map((doc) => {
+        const fileName = path.basename(doc.metadata.source);
+        return {
+          ...doc,
+          metadata: {
+            ...doc.metadata,
+            userId: userId,
+            fileName: fileName,
+          },
+        };
+      });
+
+      console.log('Docs with metadata: ', docsWithMetadata);
 
       //embed the PDF documents
-      // const result = await PineconeStore.fromDocuments(
-      //   docsWithMetadata,
-      //   embeddings,
-      //   {
-      //     pineconeIndex: index,
-      //     namespace: PINECONE_NAME_SPACE,
-      //     textKey: 'text',
-      //   },
-      // );
+      const result = await PineconeStore.fromDocuments(
+        docsWithMetadata,
+        embeddings,
+        {
+          pineconeIndex: index,
+          namespace: PINECONE_NAME_SPACE,
+          textKey: 'text',
+        },
+      );
 
       console.log('ingestion completed');
-      // if (result) {
-      //   // Delete all files from the "docs" folder
-      const folderPath = path.join(process.cwd(), 'docs');
-      fs.readdir(folderPath, (err, files) => {
-        if (err) {
-          console.log('Error reading directory', err);
-          return;
-        }
+      if (result) {
+        // Delete all files from the "docs" folder
+        const folderPath = path.join(process.cwd(), 'docs');
+        fs.readdir(folderPath, (err, files) => {
+          if (err) {
+            console.log('Error reading directory', err);
+            return;
+          }
 
-        files.forEach((file) => {
-          const filePath = path.join(folderPath, file);
-          fs.unlink(filePath, (err) => {
-            if (err) {
-              console.log('Error deleting file', err);
-              return;
-            }
-            console.log(`Deleted file: ${filePath}`);
+          files.forEach((file) => {
+            const filePath = path.join(folderPath, file);
+            fs.unlink(filePath, (err) => {
+              if (err) {
+                console.log('Error deleting file', err);
+                return;
+              }
+              console.log(`Deleted file: ${filePath}`);
+            });
           });
         });
-      });
-      // }
+      }
 
       res.status(200).json({ message: 'Ingestion complete' });
     });
