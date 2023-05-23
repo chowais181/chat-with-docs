@@ -27,10 +27,14 @@ export default function HomePage({ username }) {
           <div className={styles.centerContainer}>
             <div className="authLinks">
               <div className={styles.linkContainerStyles}>
-                <Link href="/login">Login</Link>
+                <Link href="/login" style={{ color: '#0ced6a' }}>
+                  Login
+                </Link>
               </div>
               <div className={styles.linkContainerStyles}>
-                <Link href="/signup">Signup</Link>
+                <Link href="/signup" style={{ color: '#0ced6a' }}>
+                  Signup
+                </Link>
               </div>
             </div>
           </div>

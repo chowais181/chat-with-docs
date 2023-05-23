@@ -142,7 +142,11 @@ const FileUpload: React.FC = () => {
         </div>
         <br />
         {selectedFiles.length > 0 && (
-          <button onClick={handleUpload} disabled={loading}>
+          <button
+            onClick={handleUpload}
+            disabled={loading}
+            className={styles.uploadFilebtn}
+          >
             Upload Files
           </button>
         )}
@@ -167,7 +171,10 @@ const FileUpload: React.FC = () => {
         <br />
         <p>
           Continue to{' '}
-          <Link href="/chat" style={{ textDecoration: 'underline' }}>
+          <Link
+            href="/chat"
+            style={{ textDecoration: 'underline', color: '#0ced6a' }}
+          >
             Chat
           </Link>{' '}
           ?

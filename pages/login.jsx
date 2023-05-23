@@ -37,7 +37,13 @@ export default function LoginPage() {
         </form>
         <br />
         <p>
-          Don&apos;t have an account? <Link href="/signup">Signup</Link>
+          Don&apos;t have an account?{' '}
+          <Link
+            href="/signup"
+            style={{ textDecoration: 'underline', color: '#0ced6a' }}
+          >
+            Signup
+          </Link>
         </p>
       </div>
     </Layout>

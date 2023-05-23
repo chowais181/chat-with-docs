@@ -37,12 +37,12 @@ export default async function handler(req, res) {
       { id: user?.insertedId },
       process.env.NEXT_PUBLIC_SECRET_KEY,
       {
-        expiresIn: '1h',
+        expiresIn: '24h',
       },
     );
 
     cookies.set('token', token, {
-      maxAge: 3600000, // 1 hour in milliseconds
+      maxAge: 24 * 60 * 60 * 1000, // 1 hour in milliseconds
       httpOnly: true,
       sameSite: 'strict',
       path: '/',

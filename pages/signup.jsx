@@ -57,7 +57,13 @@ export default function SignupPage({ username }) {
         </form>
         <br />
         <p>
-          Already have an account? <Link href="/login">Login</Link>
+          Already have an account?{' '}
+          <Link
+            href="/login"
+            style={{ textDecoration: 'underline', color: '#0ced6a' }}
+          >
+            Login
+          </Link>
         </p>
       </div>
     </Layout>

@@ -23,10 +23,13 @@
   margin-right: 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding: 10px 10px;
+  padding: 10px 40px;
   text-decoration: none;
   color: #333;
   transition: background-color 0.3s;
+}
+.linkContainerStyles:hover {
+  background-color: #1f282c;
 }
 
 .authPages {
@@ -62,4 +65,8 @@
 
 .textColor {
   color: white;
+}
+
+.uploadFilebtn {
+  padding: 10px;
 }

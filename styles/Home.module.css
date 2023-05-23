@@ -418,3 +418,18 @@
 .clearSelectionButton:hover {
   background-color: #333;
 }
+.divider {
+  margin-top: 20%;
+  margin-bottom: 10px;
+  width: 100%;
+  color: #000;
+  font-size: 0.8em;
+  font-weight: bold;
+  border: none;
+  height: 2px;
+  background-color: #000;
+}
+
+.accordionTrigger {
+  margin-left: 5px;
+}

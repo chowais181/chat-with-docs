@@ -60,6 +60,7 @@ input[type='submit']:hover {
 }
 
 input[type='text'],
+input[type='button'],
 input[type='email'],
 input[type='password'] {
   padding: 10px;

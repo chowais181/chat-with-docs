@@ -215,7 +215,7 @@ export default function Chat() {
                 ) : (
                   <div className={styles.sidebar}>
                     <div className={styles.plusFileContainer}>
-                      <Link href="/file-upload" className={styles.link}>
+                      <Link href="/" className={styles.link}>
                         <div className={styles.iconAndTextContainer}>
                           <svg
                             className={styles.icon}
@@ -279,6 +279,7 @@ export default function Chat() {
                         )}
                       </div>
                     </div>
+                    <hr className={styles.divider} />
 
                     {/* user data email and settings */}
                     <div className={styles.userContainer}>
@@ -300,8 +301,11 @@ export default function Chat() {
                           <path d="M12 17c-2.2 0-4-1.8-4-4h8c0 2.2-1.8 4-4 4z" />
                         </svg>
                       </div>
+
                       <div className={styles.userInfo}>
-                        <span className={styles.userEmail}>{user?.Email}</span>
+                        <span className={styles.userEmail}>
+                          {user ? user?.Email : 'Email not found'}
+                        </span>
                         <div className={styles.dropdown}>
                           <svg
                             className={styles.dropdownIcon}
@@ -395,7 +399,7 @@ export default function Chat() {
                             : styles.usermessage;
                       }
                       return (
-                        <>
+                        <div>
                           <div
                             key={`chatMessage-${index}`}
                             className={className}
@@ -419,8 +423,13 @@ export default function Chat() {
                               >
                                 {message.sourceDocs.map((doc, index) => (
                                   <div key={`messageSourceDocs-${index}`}>
-                                    <AccordionItem value={`item-${index}`}>
-                                      <AccordionTrigger>
+                                    <AccordionItem
+                                      value={`item-${index}`}
+                                      className={styles.accordionItem}
+                                    >
+                                      <AccordionTrigger
+                                        className={styles.accordionTrigger}
+                                      >
                                         <h3>
                                           <div className={styles.source}>
                                             Source {index + 1}
@@ -441,7 +450,7 @@ export default function Chat() {
                               </Accordion>
                             </div>
                           )}
-                        </>
+                        </div>
                       );
                     })}
                   </div>
